@@ -1,12 +1,13 @@
 package com.gh.netlib.exception;
 
+import org.reactivestreams.Publisher;
+
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
+import io.reactivex.Flowable;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Function;
 
@@ -16,7 +17,7 @@ import io.reactivex.functions.Function;
  * @date: 2019-07-13.
  * @from:
  */
-public class RetryWhenNetworkException implements Function<Observable<? extends Throwable>, Observable<?>> {
+public class RetryWhenNetworkException implements Function<Flowable<? extends Throwable>, Flowable<?>> {
 
     //retry次数
     private int count = 3;
@@ -41,22 +42,22 @@ public class RetryWhenNetworkException implements Function<Observable<? extends 
     }
 
     @Override
-    public Observable<?> apply(Observable<? extends Throwable> input) {
-        return input.zipWith(Observable.range(1, count + 1), new BiFunction<Throwable, Integer, Wrapper>() {
+    public Flowable<?> apply(Flowable<? extends Throwable> input) {
+        return input.zipWith(Flowable.range(1, count + 1), new BiFunction<Throwable, Integer, Wrapper>() {
             @Override
             public Wrapper apply(Throwable throwable, Integer integer) throws Exception {
                 return new Wrapper(throwable, integer);
             }
-        }).flatMap(new io.reactivex.functions.Function<Wrapper, ObservableSource<?>>() {
+        }).flatMap(new Function<Wrapper, Publisher<?>>() {
             @Override
-            public ObservableSource<?> apply(Wrapper wrapper) throws Exception {
+            public Publisher<?> apply(Wrapper wrapper) throws Exception {
                 if ((wrapper.throwable instanceof ConnectException
                         || wrapper.throwable instanceof SocketTimeoutException
                         || wrapper.throwable instanceof TimeoutException)
                         && wrapper.index < count + 1) {
-                    return Observable.timer(delay + (wrapper.index - 1) * increaseDelay, TimeUnit.MILLISECONDS);
+                    return Flowable.timer(delay + (wrapper.index - 1) * increaseDelay, TimeUnit.MILLISECONDS);
                 }
-                return Observable.error(wrapper.throwable);
+                return Flowable.error(wrapper.throwable);
             }
         });
     }

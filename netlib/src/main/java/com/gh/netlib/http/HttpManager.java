@@ -66,8 +66,8 @@ public class HttpManager {
         ProgressSubscriber subscriber = new ProgressSubscriber(baseApi);
         Flowable observable = baseApi.getObservable(retrofit)
                 /*失败后的retry配置*/
-//                .retryWhen( new RetryWhenNetworkException(baseApi.getRetryCount(),
-//                        baseApi.getRetryDelay(), baseApi.getRetryIncreaseDelay()))
+                .retryWhen( new RetryWhenNetworkException(baseApi.getRetryCount(),
+                        baseApi.getRetryDelay(), baseApi.getRetryIncreaseDelay()))
                 /*生命周期管理*/
                 .compose(baseApi.getRxAppCompatActivity().bindUntilEvent(ActivityEvent.PAUSE))
                 /*http请求线程*/
