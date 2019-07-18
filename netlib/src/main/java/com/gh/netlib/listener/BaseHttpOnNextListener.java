@@ -8,7 +8,8 @@ import io.reactivex.Flowable;
  * @date: 2019-07-13.
  * @from:
  */
-public abstract class HttpOnNextListener<T> {
+public abstract class BaseHttpOnNextListener<T> {
+
     /**
      * 成功后回调方法
      * @param t

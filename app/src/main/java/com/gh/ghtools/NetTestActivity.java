@@ -5,11 +5,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.gh.netlib.http.HttpManager;
-import com.gh.netlib.listener.HttpOnNextListener;
+import com.gh.ghtools.net.HttpOnNextListener;
+import com.gh.ghtools.net.HttpPostService;
+import com.gh.ghtools.net.NetUtils;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import java.util.List;
+
+import io.reactivex.Flowable;
 
 /**
  * @author: gh
@@ -45,14 +48,26 @@ public class NetTestActivity extends RxAppCompatActivity implements View.OnClick
 
     //    完美封装简化版
     private void simpleDo() {
-        SubjectPostApi postEntity = new SubjectPostApi(simpleOnNextListener, this);
-        postEntity.setAll(true);
-        HttpManager manager = HttpManager.getInstance();
-        manager.doHttpDeal(postEntity);
+//        SubjectPostApi postEntity = new SubjectPostApi(simpleOnNextListener, this);
+//        postEntity.setAll(true);
+//        HttpManager manager = HttpManager.getInstance();
+//        manager.doHttpDeal(new BaseApi(simpleOnNextListener, this) {
+//            @Override
+//            public Flowable getObservable(Retrofit retrofit) {
+//                HttpPostService service = retrofit.create(HttpPostService.class);
+//                return service.getAllVedioBys(true);
+//            }
+//        });
+        NetUtils.getNet(this,simpleOnNextListener);
     }
 
     //   回调一一对应
     HttpOnNextListener simpleOnNextListener = new HttpOnNextListener<List<SubjectResulte>>() {
+        @Override
+        public Flowable onConnect(HttpPostService service) {
+            return service.getAllVedioBys(true);
+        }
+
         @Override
         public void onNext(List<SubjectResulte> subjects) {
             tvMsg.setText("网络返回：\n" + subjects.toString());

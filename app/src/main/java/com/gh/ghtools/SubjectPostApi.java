@@ -1,7 +1,8 @@
 package com.gh.ghtools;
 
+import com.gh.ghtools.net.HttpPostService;
 import com.gh.netlib.api.BaseApi;
-import com.gh.netlib.listener.HttpOnNextListener;
+import com.gh.netlib.listener.BaseHttpOnNextListener;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import io.reactivex.Flowable;
@@ -27,7 +28,7 @@ public class SubjectPostApi extends BaseApi {
      * @param listener
      * @param rxAppCompatActivity
      */
-    public SubjectPostApi(HttpOnNextListener listener, RxAppCompatActivity rxAppCompatActivity) {
+    public SubjectPostApi(BaseHttpOnNextListener listener, RxAppCompatActivity rxAppCompatActivity) {
         super(listener,rxAppCompatActivity);
         setShowProgress(true);
         setCancel(true);

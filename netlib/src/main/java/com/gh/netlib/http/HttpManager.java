@@ -5,7 +5,7 @@ import android.util.Log;
 import com.gh.netlib.RxRetrofitApp;
 import com.gh.netlib.api.BaseApi;
 import com.gh.netlib.exception.RetryWhenNetworkException;
-import com.gh.netlib.listener.HttpOnNextListener;
+import com.gh.netlib.listener.BaseHttpOnNextListener;
 import com.gh.netlib.subscribers.ProgressSubscriber;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
@@ -78,7 +78,7 @@ public class HttpManager {
                 /*结果判断*/
                 .map(baseApi);
 
-        SoftReference<HttpOnNextListener> httpOnNextListener = baseApi.getListener();
+        SoftReference<BaseHttpOnNextListener> httpOnNextListener = baseApi.getListener();
         if (httpOnNextListener != null && httpOnNextListener.get() != null) {
             httpOnNextListener.get().onNext(observable);
         }

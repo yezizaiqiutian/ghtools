@@ -21,6 +21,18 @@ ext {
             canarySdkVersion        : "1.5.4"
     ]
 
+    flavors = [
+            "dimension":"version",
+            "baseurl_online":"\"https://appapi.5i5j.com/appapi/\"",
+            "baseurl_debugenv":"\"http://appapi-test.5i5j.com/appapi/\"",
+            "applicationId_online":"com.wawj.app.t",
+            "applicationId_debugenv":"com.wawj.app.tt",
+            "appname_online":"我爱我家",
+            "appname_debugenv":"我爱我家联调",
+            "appicon_online":"@mipmap/ic_launcher",
+            "appicon_debugenv":"@mipmap/ic_launcher_round",
+    ]
+
     dependencies = [
             //support
             "appcompat-v7"             : "com.android.support:appcompat-v7:${version["androidSupportSdkVersion"]}",

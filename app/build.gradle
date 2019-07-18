@@ -17,14 +17,65 @@ android {
         versionName rootProject.ext.android["versionName"]
     }
 
-    buildTypes {
+    signingConfigs {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            keyAlias 'www.5i5j.com'
+            keyPassword 'Bj5i5j525'
+            storeFile file('wiwj.keystore')
+            storePassword 'Bj5i5j525'
+        }
+        debug {
+            keyAlias 'www.5i5j.com'
+            keyPassword 'Bj5i5j525'
+            storeFile file('wiwj.keystore')
+            storePassword 'Bj5i5j525'
         }
     }
-}
 
+//    buildTypes {
+//        release {
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//        }
+//    }
+
+    buildTypes {
+        //正式包
+        release {
+            minifyEnabled true
+            shrinkResources true
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        //测试包
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    flavorDimensions rootProject.ext.flavors["dimension"]
+    productFlavors {
+        //生产环境
+        online {
+            buildConfigField "String", "BASE_URL", rootProject.ext.flavors["baseurl_online"]
+            dimension rootProject.ext.flavors["dimension"]
+            applicationId rootProject.ext.flavors["applicationId_online"]
+            resValue "string", "app_name", rootProject.ext.flavors["appname_online"]
+            manifestPlaceholders = [app_icon: rootProject.ext.flavors["appicon_online"]]
+        }
+        //个人运行
+        debugenv {
+            buildConfigField "String", "BASE_URL", rootProject.ext.flavors["baseurl_debugenv"]
+            dimension rootProject.ext.flavors["dimension"]
+            applicationId rootProject.ext.flavors["applicationId_debugenv"]
+            resValue "string", "app_name", rootProject.ext.flavors["appname_debugenv"]
+            manifestPlaceholders = [app_icon: rootProject.ext.flavors["appicon_debugenv"]]
+        }
+    }
+
+}
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:28.0.0'
@@ -34,6 +85,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     implementation project(":netlib")
+//    implementation project(":commonlib")
 
 }
 

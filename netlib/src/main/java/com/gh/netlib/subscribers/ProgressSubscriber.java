@@ -6,7 +6,7 @@ import android.content.DialogInterface;
 import android.widget.Toast;
 
 import com.gh.netlib.api.BaseApi;
-import com.gh.netlib.listener.HttpOnNextListener;
+import com.gh.netlib.listener.BaseHttpOnNextListener;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import java.lang.ref.SoftReference;
@@ -26,7 +26,7 @@ public class ProgressSubscriber<T> extends DisposableSubscriber<T> {
     /*是否弹框*/
     private boolean showPorgress = true;
     /* 软引用回调接口*/
-    private SoftReference<HttpOnNextListener> mSubscriberOnNextListener;
+    private SoftReference<BaseHttpOnNextListener> mSubscriberOnNextListener;
     /*软引用反正内存泄露*/
     private SoftReference<RxAppCompatActivity> mActivity;
     /*加载框可自己定义*/

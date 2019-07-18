@@ -1,5 +1,6 @@
-package com.gh.ghtools;
+package com.gh.ghtools.net;
 
+import com.gh.ghtools.SubjectResulte;
 import com.gh.netlib.api.BaseResultEntity;
 
 import java.util.List;

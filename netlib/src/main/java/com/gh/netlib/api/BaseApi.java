@@ -2,7 +2,7 @@ package com.gh.netlib.api;
 
 
 import com.gh.netlib.exception.HttpTimeException;
-import com.gh.netlib.listener.HttpOnNextListener;
+import com.gh.netlib.listener.BaseHttpOnNextListener;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import java.lang.ref.SoftReference;
@@ -21,7 +21,7 @@ public abstract class BaseApi<T> implements Function<BaseResultEntity<T>, T> {
     //rx生命周期管理
     private SoftReference<RxAppCompatActivity> rxAppCompatActivity;
     /*回调*/
-    private SoftReference<HttpOnNextListener> listener;
+    private SoftReference<BaseHttpOnNextListener> listener;
     /*是否能取消加载框*/
     private boolean cancel;
     /*是否显示加载框*/
@@ -47,7 +47,7 @@ public abstract class BaseApi<T> implements Function<BaseResultEntity<T>, T> {
     /*缓存url-可手动设置*/
 //    private String cacheUrl;
 
-    public BaseApi(HttpOnNextListener listener, RxAppCompatActivity rxAppCompatActivity) {
+    public BaseApi(BaseHttpOnNextListener listener, RxAppCompatActivity rxAppCompatActivity) {
         setListener(listener);
         setRxAppCompatActivity(rxAppCompatActivity);
         setShowProgress(true);
@@ -141,11 +141,11 @@ public abstract class BaseApi<T> implements Function<BaseResultEntity<T>, T> {
         this.cancel = cancel;
     }
 
-    public SoftReference<HttpOnNextListener> getListener() {
+    public SoftReference<BaseHttpOnNextListener> getListener() {
         return listener;
     }
 
-    public void setListener(HttpOnNextListener listener) {
+    public void setListener(BaseHttpOnNextListener listener) {
         this.listener = new SoftReference(listener);
     }
 
