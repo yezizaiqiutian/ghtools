@@ -17,7 +17,7 @@ public class NetUtils {
 
     public static void getNet(RxAppCompatActivity activity, HttpOnNextListener simpleOnNextListener) {
         HttpManager manager = HttpManager.getInstance();
-        manager.doHttpDeal(new BaseApi(simpleOnNextListener, activity) {
+        manager.doHttpDeal(new NetApi(simpleOnNextListener, activity) {
             @Override
             public Flowable getObservable(Retrofit retrofit) {
                 HttpPostService service = retrofit.create(HttpPostService.class);
