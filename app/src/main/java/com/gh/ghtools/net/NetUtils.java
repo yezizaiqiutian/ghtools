@@ -1,6 +1,5 @@
 package com.gh.ghtools.net;
 
-import com.gh.netlib.api.BaseApi;
 import com.gh.netlib.http.HttpManager;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
