@@ -11,6 +11,7 @@
     <!--android:icon="@mipmap/ic_launcher"-->
     <!--android:roundIcon="@mipmap/ic_launcher_round"-->
     <application
+        android:name=".base.App"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="${app_icon}"
@@ -20,13 +21,13 @@
         android:resizeableActivity="false"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!--<activity android:name=".MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>-->
+        </activity>
         <activity android:name=".NetTestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

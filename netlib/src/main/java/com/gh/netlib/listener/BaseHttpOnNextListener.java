@@ -48,4 +48,9 @@ public abstract class BaseHttpOnNextListener<T> {
 
     }
 
+    public void onLoading(){}
+
+    public void onLoadFinish(){}
+
+
 }

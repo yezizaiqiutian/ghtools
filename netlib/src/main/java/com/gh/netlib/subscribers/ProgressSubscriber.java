@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.widget.Toast;
 
 import com.gh.netlib.api.BaseApi;
+import com.gh.netlib.api.BaseResultEntity;
 import com.gh.netlib.listener.BaseHttpOnNextListener;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
@@ -21,7 +22,7 @@ import io.reactivex.subscribers.DisposableSubscriber;
  * @date: 2019-07-13.
  * @from:
  */
-public class ProgressSubscriber<T> extends DisposableSubscriber<T> {
+public class ProgressSubscriber<T extends BaseResultEntity> extends DisposableSubscriber<T> {
 
     /*是否弹框*/
     private boolean showPorgress = true;
@@ -52,24 +53,27 @@ public class ProgressSubscriber<T> extends DisposableSubscriber<T> {
     @Override
     protected void onStart() {
         super.onStart();
+        mSubscriberOnNextListener.get().onLoading();
         showProgressDialog();
     }
 
     @Override
     public void onNext(T t) {
         if (mSubscriberOnNextListener.get() != null) {
-            mSubscriberOnNextListener.get().onNext(t);
+            mSubscriberOnNextListener.get().onNext(t.getData());
         }
     }
 
     @Override
     public void onError(Throwable t) {
+        mSubscriberOnNextListener.get().onLoadFinish();
         dismissProgressDialog();
         errorDo(t);
     }
 
     @Override
     public void onComplete() {
+        mSubscriberOnNextListener.get().onLoadFinish();
         dismissProgressDialog();
     }
 
@@ -81,6 +85,7 @@ public class ProgressSubscriber<T> extends DisposableSubscriber<T> {
         if (pd == null && context != null) {
             pd = new ProgressDialog(context);
             pd.setCancelable(cancel);
+            pd.setMessage("加载中...");
             if (cancel) {
                 pd.setOnCancelListener(new DialogInterface.OnCancelListener() {
                     @Override

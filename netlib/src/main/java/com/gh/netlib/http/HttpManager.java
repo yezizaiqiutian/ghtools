@@ -7,15 +7,20 @@ import com.gh.netlib.api.BaseApi;
 import com.gh.netlib.exception.RetryWhenNetworkException;
 import com.gh.netlib.listener.BaseHttpOnNextListener;
 import com.gh.netlib.subscribers.ProgressSubscriber;
+import com.readystatesoftware.chuck.ChuckInterceptor;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.lang.ref.SoftReference;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -30,6 +35,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class HttpManager {
 
     private volatile static HttpManager INSTANCE;
+    private Map<String, String> headersMap;
 
     private HttpManager(){}
 
@@ -44,6 +50,10 @@ public class HttpManager {
         return INSTANCE;
     }
 
+    public void setHeaders(Map<String,String> headers){
+        headersMap = headers;
+    }
+
     /**
      * 处理http请求
      *
@@ -55,6 +65,21 @@ public class HttpManager {
         if(RxRetrofitApp.isDebug()){
             builder.addInterceptor(getHttpLoggingInterceptor());
         }
+        builder.addInterceptor(chain -> {
+            Set set = headersMap.entrySet();
+            Iterator i = set.iterator();
+            Request.Builder xmlHttpRequest = chain.request().newBuilder();
+
+            while(i.hasNext()){
+                Map.Entry<String, String> entry1=(Map.Entry<String, String>)i.next();
+                xmlHttpRequest.addHeader(entry1.getKey(),entry1.getValue());
+            }
+            Request request = xmlHttpRequest.build();
+            return chain.proceed(request);
+
+        });
+
+        builder.addInterceptor(new ChuckInterceptor(RxRetrofitApp.getApplication()));
 
         Retrofit retrofit = new Retrofit.Builder()
                 .client(builder.build())

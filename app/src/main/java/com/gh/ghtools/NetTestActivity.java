@@ -1,14 +1,16 @@
 package com.gh.ghtools;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.gh.ghtools.base.BaseActivity;
 import com.gh.ghtools.net.HttpOnNextListener;
 import com.gh.ghtools.net.HttpPostService;
 import com.gh.ghtools.net.NetUtils;
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import java.util.List;
 
@@ -20,10 +22,18 @@ import io.reactivex.Flowable;
  * @date: 2019-07-13.
  * @from:
  */
-public class NetTestActivity extends RxAppCompatActivity implements View.OnClickListener  {
+public class NetTestActivity extends BaseActivity implements View.OnClickListener  {
 
     private TextView tvMsg;
     private ImageView img;
+
+    public static void access(Context context) {
+
+        Intent intent = new Intent();
+        intent.setClass(context, NetTestActivity.class);
+
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

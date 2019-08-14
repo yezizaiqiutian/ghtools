@@ -17,7 +17,7 @@ import retrofit2.Retrofit;
  * @date: 2019-07-13.
  * @from:
  */
-public abstract class BaseApi<T> implements Function<BaseResultEntity<T>, T> {
+public abstract class BaseApi<T> implements Function<BaseResultEntity<T>, BaseResultEntity<T>> {
     //rx生命周期管理
     private SoftReference<RxAppCompatActivity> rxAppCompatActivity;
     /*回调*/
@@ -39,7 +39,7 @@ public abstract class BaseApi<T> implements Function<BaseResultEntity<T>, T> {
     /*无网络的情况下本地缓存时间默认30天*/
 //    private int cookieNoNetWorkTime = 24 * 60 * 60 * 30;
     /* 失败后retry次数*/
-    private int retryCount = 1;
+    private int retryCount = 0;
     /*失败后retry延迟*/
     private long retryDelay = 100;
     /*失败后retry叠加延迟*/
@@ -183,11 +183,11 @@ public abstract class BaseApi<T> implements Function<BaseResultEntity<T>, T> {
     }
 
     @Override
-    public T apply(BaseResultEntity<T> httpResult) {
-        if (httpResult.getRet() == 0) {
+    public BaseResultEntity<T> apply(BaseResultEntity<T> httpResult) {
+        if (httpResult.getCode() != 0) {
             throw new HttpTimeException(httpResult.getMsg());
         }
-        return httpResult.getData();
+        return httpResult;
     }
 
 

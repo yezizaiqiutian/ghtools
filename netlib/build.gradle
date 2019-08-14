@@ -35,6 +35,8 @@ dependencies {
     api rootProject.ext.dependencies["retrofit"]
     implementation rootProject.ext.dependencies["retrofit-converter-gson"]
     implementation rootProject.ext.dependencies["okhttp3-logging"]
+    releaseImplementation rootProject.ext.dependencies["chuck_no"]
+    debugImplementation rootProject.ext.dependencies["chuck"]
 
 }
 

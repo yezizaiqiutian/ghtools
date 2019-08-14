@@ -1,23 +1,25 @@
 package com.gh.netlib.api;
 
+import java.io.Serializable;
+
 /**
  * @author: gh
  * @description:请求接口返回基类
  * @date: 2019-07-13.
  * @from:
  */
-public class BaseResultEntity<T> {
+public class BaseResultEntity<T> implements Serializable {
 
-    private int ret;
+    private int code;
     private String msg;
     private T data;
 
-    public int getRet() {
-        return ret;
+    public int getCode() {
+        return code;
     }
 
-    public void setRet(int ret) {
-        this.ret = ret;
+    public void setCode(int code) {
+        this.code = code;
     }
 
     public String getMsg() {

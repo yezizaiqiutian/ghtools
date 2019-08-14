@@ -32,26 +32,41 @@ android {
         }
     }
 
-//    buildTypes {
-//        release {
-//            minifyEnabled false
-//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//        }
-//    }
-
     buildTypes {
         //正式包
         release {
+            // 混淆
             minifyEnabled true
+            // Zipalign优化
+            zipAlignEnabled true
+            // 移除无用的resource文件
             shrinkResources true
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
         }
         //测试包
         debug {
+            // 混淆
             minifyEnabled false
+            // Zipalign优化
+            zipAlignEnabled false
+            // 移除无用的resource文件
             shrinkResources false
             signingConfig signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def outputFile = variant.getPackageApplicationProvider().get().outputDirectory
+            def fileName
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                fileName = "FBSFinance_${productFlavors[0].name}_${variant.buildType.name}_v${defaultConfig.versionName}_${releaseTime()}.apk"
+                outputFileName = fileName
+            }
         }
     }
 
@@ -76,13 +91,48 @@ android {
     }
 
 }
+
+static def releaseTime() {
+    return new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC"))
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     implementation rootProject.ext.dependencies["appcompat-v7"]
     implementation rootProject.ext.dependencies["constraint"]
 
+    //联网库
     implementation project(":netlib")
-//    implementation project(":commonlib")
+
+    //注解
+    implementation rootProject.ext.dependencies["butterknife"]
+    annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
+
+    //下拉刷新
+    implementation rootProject.ext.dependencies["smartrefreshlayout"]
+    implementation rootProject.ext.dependencies["smartrefreshheader"]
+
+    //6.0权限
+    implementation rootProject.ext.dependencies["andpermission"]
+
+    //tablayout
+    implementation rootProject.ext.dependencies["flycotablayout_lib"]
+
+    //流式布局
+    implementation rootProject.ext.dependencies["flowlayout"]
+
+    //沉浸模式
+    implementation rootProject.ext.dependencies["statusbarutil"]
+
+    //recyclerviewadapter
+    implementation rootProject.ext.dependencies["baserecyclerviewadapterhelper"]
+
+    implementation rootProject.ext.dependencies["glide"]
+    annotationProcessor rootProject.ext.dependencies["glide-compiler"]
+
+    //eventbus
+    implementation rootProject.ext.dependencies["eventbus"]
 
 }
 
