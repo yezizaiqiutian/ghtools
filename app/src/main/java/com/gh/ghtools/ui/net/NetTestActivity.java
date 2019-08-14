@@ -1,4 +1,4 @@
-package com.gh.ghtools;
+package com.gh.ghtools.ui.net;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,10 +7,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.gh.ghtools.R;
 import com.gh.ghtools.base.BaseActivity;
 import com.gh.ghtools.net.HttpOnNextListener;
 import com.gh.ghtools.net.HttpPostService;
 import com.gh.ghtools.net.NetUtils;
+import com.gh.ghtools.net.SubjectResulte;
 
 import java.util.List;
 

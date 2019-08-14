@@ -134,6 +134,9 @@ dependencies {
     //eventbus
     implementation rootProject.ext.dependencies["eventbus"]
 
+    //design
+    implementation rootProject.ext.dependencies["design"]
+
 }
 
 configurations.all {

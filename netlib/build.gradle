@@ -18,10 +18,30 @@ android {
     }
 
     buildTypes {
+        //正式包
         release {
+            // 混淆
+            minifyEnabled true
+            // Zipalign优化
+            zipAlignEnabled true
+            // 移除无用的resource文件
+//            shrinkResources true
+//            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+        }
+        //测试包
+        debug {
+            // 混淆
             minifyEnabled false
+            // Zipalign优化
+            zipAlignEnabled false
+            // 移除无用的resource文件
+//            shrinkResources false
+//            signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+
     }
 
 }
@@ -29,6 +49,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+//    androidTestCompile rootProject.ext.dependencies["junit"]
+//    androidTestCompile rootProject.ext.dependencies["runner"]
     api rootProject.ext.dependencies["rxlifecycle2"]
     api rootProject.ext.dependencies["rxlifecycle2-components"]
     implementation rootProject.ext.dependencies["retrofit-adapter-rxjava2"]

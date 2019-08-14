@@ -1,4 +1,4 @@
-package com.gh.ghtools;
+package com.gh.ghtools.ui;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,7 +7,10 @@ import android.support.v7.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.gh.ghtools.R;
 import com.gh.ghtools.base.BaseActivity;
+import com.gh.ghtools.ui.net.NetTestActivity;
+import com.gh.ghtools.ui.xifu.XiFuDemoActivity;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
@@ -23,7 +26,7 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.srl_refresh)
     SmartRefreshLayout srl_refresh;
     private BaseQuickAdapter<String, BaseViewHolder> adapter;
-    private String[] listData = {"网络加载"};
+    private String[] listData = {"网络加载","吸附效果"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +72,7 @@ public class MainActivity extends BaseActivity {
                     NetTestActivity.access(context);
                     break;
                 case 1:
+                    XiFuDemoActivity.access(context);
                     break;
                 case 2:
                     break;
