@@ -30,8 +30,10 @@ ext {
 
     flavors = [
             "dimension"             : "version",
-            "baseurl_online"        : "\"http://uat.fbs.91weijia.com/fbs-app/\"",
-            "baseurl_debugenv"      : "\"http://uat.fbs.91weijia.com/fbs-app/\"",
+//            "baseurl_online"        : "\"http://uat.fbs.91weijia.com/fbs-app/\"",
+            "baseurl_online"        : "\"https://www.izaodao.com/Api/\"",
+            "baseurl_debugenv"      : "\"https://www.izaodao.com/Api/\"",
+//            "baseurl_debugenv"      : "\"http://uat.fbs.91weijia.com/fbs-app/\"",
             "applicationId_online"  : "com.gh.ghtools",
             "applicationId_debugenv": "com.gh.ghtoolstest",
             "appname_online"        : "gh工具",
@@ -65,6 +67,7 @@ ext {
             "picasso"                      : "com.squareup.picasso:picasso:2.5.2",
             "chuck"                        : "com.readystatesoftware.chuck:library:1.1.0",
             "chuck_no"                     : "com.readystatesoftware.chuck:library-no-op:1.1.0",
+            "cookie_jar"                   : "com.github.franmontiel:PersistentCookieJar:v1.0.1",
 
             //view
             "autolayout"                   : "com.zhy:autolayout:1.4.5",

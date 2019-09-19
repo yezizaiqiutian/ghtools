@@ -2,25 +2,26 @@ package com.gh.netlib.http;
 
 import android.util.Log;
 
+import com.franmontiel.persistentcookiejar.PersistentCookieJar;
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.gh.netlib.RxRetrofitApp;
 import com.gh.netlib.api.BaseApi;
 import com.gh.netlib.exception.RetryWhenNetworkException;
+import com.gh.netlib.interceptor.HeaderInterceptor;
 import com.gh.netlib.listener.BaseHttpOnNextListener;
 import com.gh.netlib.subscribers.ProgressSubscriber;
 import com.readystatesoftware.chuck.ChuckInterceptor;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.lang.ref.SoftReference;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -37,7 +38,8 @@ public class HttpManager {
     private volatile static HttpManager INSTANCE;
     private Map<String, String> headersMap;
 
-    private HttpManager(){}
+    private HttpManager() {
+    }
 
     public static HttpManager getInstance() {
         if (INSTANCE == null) {
@@ -50,7 +52,7 @@ public class HttpManager {
         return INSTANCE;
     }
 
-    public void setHeaders(Map<String,String> headers){
+    public void setHeaders(Map<String, String> headers) {
         headersMap = headers;
     }
 
@@ -60,26 +62,16 @@ public class HttpManager {
      * @param baseApi
      */
     public void doHttpDeal(BaseApi baseApi) {
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        PersistentCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new
+                SharedPrefsCookiePersistor(RxRetrofitApp.getApplication()));
+        OkHttpClient.Builder builder = new OkHttpClient.Builder()
+                .addInterceptor(new HeaderInterceptor(headersMap))
+                .addInterceptor(new ChuckInterceptor(RxRetrofitApp.getApplication()))
+                .cookieJar(cookieJar);
         builder.connectTimeout(baseApi.getConnectionTime(), TimeUnit.SECONDS);
-        if(RxRetrofitApp.isDebug()){
+        if (RxRetrofitApp.isDebug()) {
             builder.addInterceptor(getHttpLoggingInterceptor());
         }
-        builder.addInterceptor(chain -> {
-            Set set = headersMap.entrySet();
-            Iterator i = set.iterator();
-            Request.Builder xmlHttpRequest = chain.request().newBuilder();
-
-            while(i.hasNext()){
-                Map.Entry<String, String> entry1=(Map.Entry<String, String>)i.next();
-                xmlHttpRequest.addHeader(entry1.getKey(),entry1.getValue());
-            }
-            Request request = xmlHttpRequest.build();
-            return chain.proceed(request);
-
-        });
-
-        builder.addInterceptor(new ChuckInterceptor(RxRetrofitApp.getApplication()));
 
         Retrofit retrofit = new Retrofit.Builder()
                 .client(builder.build())
@@ -91,7 +83,7 @@ public class HttpManager {
         ProgressSubscriber subscriber = new ProgressSubscriber(baseApi);
         Flowable observable = baseApi.getObservable(retrofit)
                 /*失败后的retry配置*/
-                .retryWhen( new RetryWhenNetworkException(baseApi.getRetryCount(),
+                .retryWhen(new RetryWhenNetworkException(baseApi.getRetryCount(),
                         baseApi.getRetryDelay(), baseApi.getRetryIncreaseDelay()))
                 /*生命周期管理*/
                 .compose(baseApi.getRxAppCompatActivity().bindUntilEvent(ActivityEvent.PAUSE))
@@ -112,14 +104,14 @@ public class HttpManager {
 
     }
 
-    private HttpLoggingInterceptor getHttpLoggingInterceptor(){
+    private HttpLoggingInterceptor getHttpLoggingInterceptor() {
         //日志显示级别
-        HttpLoggingInterceptor.Level level= HttpLoggingInterceptor.Level.BODY;
+        HttpLoggingInterceptor.Level level = HttpLoggingInterceptor.Level.BODY;
         //新建log拦截器
-        HttpLoggingInterceptor loggingInterceptor=new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
             @Override
             public void log(String message) {
-                Log.d("RxRetrofit","Retrofit====Message:"+message);
+                Log.d("RxRetrofit", "Retrofit====Message:" + message);
             }
         });
         loggingInterceptor.setLevel(level);

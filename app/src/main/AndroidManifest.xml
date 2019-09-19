@@ -30,6 +30,7 @@
         </activity>
         <activity android:name=".ui.net.NetTestActivity"/>
         <activity android:name=".ui.xifu.XiFuDemoActivity"/>
+        <activity android:name=".ui.rxjava.RxJavaActivity"/>
 
     </application>
 

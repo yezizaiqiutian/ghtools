@@ -59,6 +59,7 @@ dependencies {
     implementation rootProject.ext.dependencies["okhttp3-logging"]
     releaseImplementation rootProject.ext.dependencies["chuck_no"]
     debugImplementation rootProject.ext.dependencies["chuck"]
+    implementation rootProject.ext.dependencies["cookie_jar"]
 
 }
 

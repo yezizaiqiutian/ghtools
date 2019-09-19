@@ -1,10 +1,12 @@
 package com.gh.ghtools.net;
 
+import java.io.Serializable;
+
 /**
  * 测试显示数据
  * Created by WZG on 2016/7/16.
  */
-public class SubjectResulte {
+public class SubjectResulte implements Serializable {
     private int id;
     private String name;
     private String title;
