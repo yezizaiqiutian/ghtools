@@ -10,6 +10,8 @@ import com.gh.ghtools.R;
 import com.gh.ghtools.base.BaseActivity;
 
 import org.reactivestreams.Publisher;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,10 +19,17 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
+import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
@@ -67,99 +76,204 @@ public class RxJavaActivity extends BaseActivity {
         studentList.add(new Student("7", "张八", "29", "3"));
     }
 
-    @OnClick({R.id.test_01, R.id.test_02, R.id.test_03})
+    @OnClick({R.id.test_01, R.id.test_02, R.id.test_03, R.id.studyrx_01, R.id.studyrx_02})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.test_01:
-                //将list的数据一个一个发送出去
-                Observable.just(list1, list2, list3)
-                        //这样使用,以后可以减少双层for循环
-                        .flatMap(new Function<List<Integer>, ObservableSource<Integer>>() {
-                            @Override
-                            public ObservableSource<Integer> apply(List<Integer> integers) throws Exception {
-                                return Observable.fromIterable(integers);
-                            }
-                        })
-                        .subscribe(new Consumer<Integer>() {
-                            @Override
-                            public void accept(Integer integer) throws Exception {
-                                Log.d("gh____", integer + "");
-                            }
-                        });
+                test_01();
                 break;
             case R.id.test_02:
-                //将list的数据进行过滤
-                Observable.just(list1, list2, list3)
-                        //这样使用,以后可以减少双层for循环
-                        .flatMap(new Function<List<Integer>, ObservableSource<Integer>>() {
-                            @Override
-                            public ObservableSource<Integer> apply(List<Integer> integers) throws Exception {
-                                return Observable.fromIterable(integers);
-                            }
-                        })
-                        .filter(new Predicate<Integer>() {
-                            @Override
-                            public boolean test(Integer integer) throws Exception {
-                                return integer != 3;
-                            }
-                        })
-                        .toList()
-                        .subscribe(new Consumer<List<Integer>>() {
-                            @Override
-                            public void accept(List<Integer> integers) throws Exception {
-                                Log.d("gh____", integers.toString());
-                            }
-                        });
+                test_02();
 
                 break;
             case R.id.test_03:
-                Flowable
-                        .just(studentList)
-                        .flatMap(new Function<List<Student>, Publisher<Student>>() {
-                            @Override
-                            public Publisher<Student> apply(List<Student> students) throws Exception {
-                                return Flowable.fromIterable(students);
-                            }
-                        })
-                        .filter(new Predicate<Student>() {
-                            @Override
-                            public boolean test(Student student) throws Exception {
-                                return "2".equals(student.getClazz());
-                            }
-                        })
-                        .toList()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Consumer<List<Student>>() {
-                            @Override
-                            public void accept(List<Student> students) throws Exception {
-                                Flowable
-                                        .just(students)
-                                        .flatMap(new Function<List<Student>, Publisher<Student>>() {
-                                            @Override
-                                            public Publisher<Student> apply(List<Student> students) throws Exception {
-                                                return Flowable.fromIterable(students);
-                                            }
-                                        })
-                                        .subscribe(new Consumer<Student>() {
-                                            @Override
-                                            public void accept(Student student) throws Exception {
-                                                Log.d("gh____", student.getName());
-                                            }
-                                        }, new Consumer<Throwable>() {
-                                            @Override
-                                            public void accept(Throwable throwable) throws Exception {
-
-                                            }
-                                        });
-
-                            }
-                        });
-
+                test_03();
+                break;
+            case R.id.studyrx_01:
+                studyRx_01();
+                break;
+            case R.id.studyrx_02:
+                studyRx_02();
                 break;
             default:
                 break;
         }
     }
+
+    private void test_01() {
+        //将list的数据一个一个发送出去
+        Observable.just(list1, list2, list3)
+                //这样使用,以后可以减少双层for循环
+                .flatMap(new Function<List<Integer>, ObservableSource<Integer>>() {
+                    @Override
+                    public ObservableSource<Integer> apply(List<Integer> integers) throws Exception {
+                        return Observable.fromIterable(integers);
+                    }
+                })
+                .subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+                        Log.d("gh____", integer + "");
+                    }
+                });
+    }
+
+    private void test_02() {
+        //将list的数据进行过滤
+        Observable.just(list1, list2, list3)
+                //这样使用,以后可以减少双层for循环
+                .flatMap(new Function<List<Integer>, ObservableSource<Integer>>() {
+                    @Override
+                    public ObservableSource<Integer> apply(List<Integer> integers) throws Exception {
+                        return Observable.fromIterable(integers);
+                    }
+                })
+                .filter(new Predicate<Integer>() {
+                    @Override
+                    public boolean test(Integer integer) throws Exception {
+                        return integer != 3;
+                    }
+                })
+                .toList()
+                .subscribe(new Consumer<List<Integer>>() {
+                    @Override
+                    public void accept(List<Integer> integers) throws Exception {
+                        Log.d("gh____", integers.toString());
+                    }
+                });
+    }
+
+    private void test_03() {
+        Observable.just(studentList).toList();
+        Observable.fromIterable(studentList).toList();
+
+        Flowable
+                .just(studentList)
+                .flatMap(new Function<List<Student>, Publisher<Student>>() {
+                    @Override
+                    public Publisher<Student> apply(List<Student> students) throws Exception {
+                        return Flowable.fromIterable(students);
+                    }
+                })
+                .filter(new Predicate<Student>() {
+                    @Override
+                    public boolean test(Student student) throws Exception {
+                        return "2".equals(student.getClazz());
+                    }
+                })
+                .toList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<Student>>() {
+                    @Override
+                    public void accept(List<Student> students) throws Exception {
+                        Flowable
+                                .just(students)
+                                .flatMap(new Function<List<Student>, Publisher<Student>>() {
+                                    @Override
+                                    public Publisher<Student> apply(List<Student> students) throws Exception {
+                                        return Flowable.fromIterable(students);
+                                    }
+                                })
+                                .subscribe(new Consumer<Student>() {
+                                    @Override
+                                    public void accept(Student student) throws Exception {
+                                        Log.d("gh____", student.getName());
+                                    }
+                                }, new Consumer<Throwable>() {
+                                    @Override
+                                    public void accept(Throwable throwable) throws Exception {
+
+                                    }
+                                });
+
+                    }
+                });
+    }
+
+    /**
+     * 对rx的学习
+     * https://juejin.im/post/582b2c818ac24700618ff8f5
+     */
+    private void studyRx_01() {
+        Observable<Integer> mObservable = Observable.create(new ObservableOnSubscribe<Integer>() {
+            @Override
+            public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
+                emitter.onNext(1);
+                emitter.onNext(2);
+                emitter.onNext(3);
+                emitter.onComplete();
+            }
+        });
+        Observer mObserver = new Observer<Integer>() {
+            //这是新加入的方法，在订阅后发送数据之前，
+            //回首先调用这个方法，而Disposable可用于取消订阅
+            @Override
+            public void onSubscribe(Disposable d) {
+                Log.d("gh____", "onSubscribe");
+            }
+
+            @Override
+            public void onNext(Integer o) {
+                Log.d("gh____", o.toString());
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.d("gh____", "onError");
+            }
+
+            @Override
+            public void onComplete() {
+                Log.d("gh____", "onComplete");
+            }
+        };
+        mObservable.subscribe(mObserver);
+    }
+
+    private void studyRx_02() {
+        //Flowable是支持背压的，也就是说，一般而言，上游的被观察者会响应下游观察者的数据请求，下游调用request(n)来告诉上游发送多少个数据。这样避免了大量数据堆积在调用链上，使内存一直处于较低水平。
+
+        Flowable.create(new FlowableOnSubscribe<Integer>() {
+            @Override
+            public void subscribe(FlowableEmitter<Integer> emitter) throws Exception {
+                emitter.onNext(1);
+                emitter.onNext(2);
+                emitter.onComplete();
+            }
+        }, BackpressureStrategy.BUFFER);
+
+        Flowable.range(0, 10)
+                .subscribe(new Subscriber<Integer>() {
+                    Subscription subscription;
+
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        Log.d("gh____", "onSubscribe start");
+                        subscription = s;
+                        subscription.request(1);
+                        Log.d("gh____", "onSubscribe end");
+
+                    }
+
+                    @Override
+                    public void onNext(Integer integer) {
+                        Log.d("gh____", "onNext" + integer);
+                        subscription.request(1);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        Log.d("gh____", "onError");
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d("gh____", "onComplete");
+                    }
+                });
+    }
+
+    //https://juejin.im/post/580103f20e3dd90057fc3e6d
 
 }

@@ -12,13 +12,25 @@
 
     <Button
         android:id="@+id/test_02"
-        android:text="test_01"
+        android:text="test_02"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/test_03"
-        android:text="test_01"
+        android:text="test_03"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/studyrx_01"
+        android:text="studyrx_01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/studyrx_02"
+        android:text="studyrx_02"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
