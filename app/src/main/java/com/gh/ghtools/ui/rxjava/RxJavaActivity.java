@@ -76,7 +76,7 @@ public class RxJavaActivity extends BaseActivity {
         studentList.add(new Student("7", "张八", "29", "3"));
     }
 
-    @OnClick({R.id.test_01, R.id.test_02, R.id.test_03, R.id.studyrx_01, R.id.studyrx_02})
+    @OnClick({R.id.test_01, R.id.test_02, R.id.test_03, R.id.studyrx_01, R.id.studyrx_02, R.id.studyrx_03, R.id.studyrx_04})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.test_01:
@@ -94,6 +94,12 @@ public class RxJavaActivity extends BaseActivity {
                 break;
             case R.id.studyrx_02:
                 studyRx_02();
+                break;
+            case R.id.studyrx_03:
+                studyRx_03();
+                break;
+            case R.id.studyrx_04:
+                studyRx_04();
                 break;
             default:
                 break;
@@ -274,6 +280,161 @@ public class RxJavaActivity extends BaseActivity {
                 });
     }
 
-    //https://juejin.im/post/580103f20e3dd90057fc3e6d
+    /**
+     * https://juejin.im/post/580103f20e3dd90057fc3e6d
+     */
+    private void studyRx_03() {
+        //创建被观察者
+        Observable switcher = Observable.create(new ObservableOnSubscribe<String>() {
+            @Override
+            public void subscribe(ObservableEmitter<String> emitter) throws Exception {
+                emitter.onNext("On");
+                emitter.onNext("Off");
+                emitter.onNext("On");
+                emitter.onNext("On");
+                emitter.onComplete();
+            }
+        });
+        Observable switcher2 = Observable.just("On", "Off", "On", "On");
+        String[] kk = {"On", "Off", "On", "On"};
+        Observable switcher3 = Observable.fromArray(kk);
+
+        //创建观察者
+        Observer light = new Observer() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(Object o) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        };
+        Subscriber light2 = new Subscriber<String>() {
+            @Override
+            public void onSubscribe(Subscription s) {
+
+            }
+
+            @Override
+            public void onNext(String o) {
+
+            }
+
+            @Override
+            public void onError(Throwable t) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        };
+        Consumer light3 = new Consumer<String>() {
+            @Override
+            public void accept(String s) throws Exception {
+
+            }
+        };
+
+        //订阅
+        switcher.subscribe(light);
+        switcher.subscribe(light3);
+
+        Observable.just("On", "Off",null, "On", "On")
+                .filter(new Predicate<String>() {
+                    @Override
+                    public boolean test(String s) throws Exception {
+                        return s != null;
+                    }
+                })
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+    }
+
+    private void studyRx_04() {
+        int[] intList = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
+        Observable.just(1)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.io())
+                .map(new Function<Integer, String>() {
+                    @Override
+                    public String apply(Integer integer) throws Exception {
+                        return integer + "";
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+
+        String school[][] = {{"11","12","13"},{"21","22","23"},{"31","32","33"}};
+        Observable.fromArray(school)
+                .flatMap(new Function<String[], ObservableSource<String>>() {
+                    @Override
+                    public ObservableSource<String> apply(String[] strings) throws Exception {
+                        return Observable.fromArray(strings);
+                    }
+                })
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String o) throws Exception {
+                        Log.d("gh____", o);
+                    }
+                });
+
+
+    }
 
 }
