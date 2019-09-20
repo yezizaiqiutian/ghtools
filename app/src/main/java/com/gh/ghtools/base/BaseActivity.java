@@ -2,7 +2,7 @@ package com.gh.ghtools.base;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
+import androidx.annotation.CallSuper;
 
 import com.jaeger.library.StatusBarUtil;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;

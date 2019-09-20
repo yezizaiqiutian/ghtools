@@ -3,7 +3,6 @@ package com.gh.ghtools.ui.xifu;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -12,6 +11,7 @@ import android.widget.TextView;
 
 import com.gh.ghtools.R;
 import com.gh.ghtools.base.BaseActivity;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;

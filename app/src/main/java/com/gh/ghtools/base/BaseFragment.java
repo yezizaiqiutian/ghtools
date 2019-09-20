@@ -2,8 +2,8 @@ package com.gh.ghtools.base;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.annotation.Nullable;
+import androidx.annotation.CallSuper;
+import androidx.annotation.Nullable;
 
 import com.trello.rxlifecycle2.components.support.RxFragment;
 
