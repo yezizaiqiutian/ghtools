@@ -10,6 +10,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.gh.ghtools.R;
 import com.gh.ghtools.base.BaseActivity;
 import com.gh.ghtools.ui.net.NetTestActivity;
+import com.gh.ghtools.ui.rotate.RotateActivity;
 import com.gh.ghtools.ui.rxjava.RxJavaActivity;
 import com.gh.ghtools.ui.xifu.XiFuDemoActivity;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -27,7 +28,7 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.srl_refresh)
     SmartRefreshLayout srl_refresh;
     private BaseQuickAdapter<String, BaseViewHolder> adapter;
-    private String[] listData = {"网络加载","吸附效果","rxjava"};
+    private String[] listData = {"网络加载","吸附效果","rxjava","转盘"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +80,7 @@ public class MainActivity extends BaseActivity {
                     RxJavaActivity.access(context);
                     break;
                 case 3:
+                    RotateActivity.access(context);
                     break;
             }
         });

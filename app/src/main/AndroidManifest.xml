@@ -28,9 +28,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.net.NetTestActivity"/>
-        <activity android:name=".ui.xifu.XiFuDemoActivity"/>
-        <activity android:name=".ui.rxjava.RxJavaActivity"/>
+        <activity android:name=".ui.net.NetTestActivity" />
+        <activity android:name=".ui.xifu.XiFuDemoActivity" />
+        <activity android:name=".ui.rxjava.RxJavaActivity" />
+        <activity android:name=".ui.rotate.RotateActivity" />
 
     </application>
 
