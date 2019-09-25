@@ -2,9 +2,16 @@
 
 工具类,以后逐步完善
 
+## jetpack
+    [https://www.jianshu.com/p/66b93df4b7a6]
+
+## rxjava
+
+## 吸附效果
+
 ## netlib
 
-借鉴于:https://github.com/wzgiceman/RxjavaRetrofitDemo-master
+借鉴于:[https://github.com/wzgiceman/RxjavaRetrofitDemo-master]
 
 上面框架提供了许多扩展的功能,比如使用greendao缓存网络数据等等
 有一个不方便的地方:每个接口都需要建立相应的api管理类,虽然可以高度定制每个接口的参数,但是使用会相对麻烦
