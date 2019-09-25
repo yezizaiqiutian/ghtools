@@ -3,7 +3,7 @@
 工具类,以后逐步完善
 
 ## jetpack
-    [https://www.jianshu.com/p/66b93df4b7a6]
+借鉴于:[https://www.jianshu.com/p/66b93df4b7a6]
 
 ## rxjava
 
