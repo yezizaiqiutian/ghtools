@@ -8,6 +8,7 @@ import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersisto
 import com.gh.netlib.RxRetrofitApp;
 import com.gh.netlib.api.BaseApi;
 import com.gh.netlib.exception.RetryWhenNetworkException;
+import com.gh.netlib.interceptor.BaseUrlInterceptor;
 import com.gh.netlib.interceptor.HeaderInterceptor;
 import com.gh.netlib.listener.BaseHttpOnNextListener;
 import com.gh.netlib.subscribers.ProgressSubscriber;
@@ -66,6 +67,7 @@ public class HttpManager {
                 SharedPrefsCookiePersistor(RxRetrofitApp.getApplication()));
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .addInterceptor(new HeaderInterceptor(headersMap))
+                .addInterceptor(new BaseUrlInterceptor())
                 .addInterceptor(new ChuckInterceptor(RxRetrofitApp.getApplication()))
                 .cookieJar(cookieJar);
         builder.connectTimeout(baseApi.getConnectionTime(), TimeUnit.SECONDS);

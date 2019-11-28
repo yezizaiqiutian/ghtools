@@ -11,7 +11,7 @@ import okhttp3.Response;
 
 /**
  * @author: gh
- * @description:
+ * @description: 为全局请求添加header
  * @date: 2019-09-17.
  * @from:
  */

@@ -102,6 +102,8 @@ dependencies {
     implementation rootProject.ext.dependencies["appcompat-v7"]
     implementation rootProject.ext.dependencies["constraint"]
 
+    //工具库
+    implementation project(":commonlib")
     //联网库
     implementation project(":netlib")
 

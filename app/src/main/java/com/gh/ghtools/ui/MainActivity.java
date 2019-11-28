@@ -1,12 +1,15 @@
 package com.gh.ghtools.ui;
 
 import android.os.Bundle;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.gh.commonlib.permissions.PermissionUtils;
 import com.gh.ghtools.R;
 import com.gh.ghtools.base.BaseActivity;
 import com.gh.ghtools.ui.net.NetTestActivity;
@@ -28,7 +31,7 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.srl_refresh)
     SmartRefreshLayout srl_refresh;
     private BaseQuickAdapter<String, BaseViewHolder> adapter;
-    private String[] listData = {"网络加载","吸附效果","rxjava","转盘"};
+    private String[] listData = {"网络加载","吸附效果","rxjava","转盘","权限申请"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +84,17 @@ public class MainActivity extends BaseActivity {
                     break;
                 case 3:
                     RotateActivity.access(context);
+                    break;
+                case 4:
+                    PermissionUtils.toCheckPermissions(activity, true, true, PermissionUtils.FLAG_PERMISSION_SD, new PermissionUtils.OnPermissionListener() {
+                        @Override
+                        public void onPermission(boolean isSuccess, int flag) {
+                            if (/*!isSuccess || */PermissionUtils.FLAG_PERMISSION_SD != flag) {
+                                return;
+                            }
+                            Toast.makeText(context, "请求权限:"+isSuccess, Toast.LENGTH_SHORT).show();
+                        }
+                    }, PermissionUtils.PERMISSION_SD);
                     break;
             }
         });

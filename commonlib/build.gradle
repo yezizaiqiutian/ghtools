@@ -30,6 +30,12 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation rootProject.ext.dependencies["appcompat-v7"]
+
+    implementation rootProject.ext.dependencies["glide"]
+    annotationProcessor rootProject.ext.dependencies["glide-compiler"]
+
+    //6.0权限
+    implementation rootProject.ext.dependencies["andpermission"]
 }
 
 configurations.all {

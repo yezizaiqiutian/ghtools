@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">commonlib</string>
+
+    <!--权限-->
+    <string name="permission_rationale">请授予下列权限继续程序:&#160;%1$s</string>
+    <string name="permission_dialog_title">提示</string>
+    <string name="permission_dialog_resume">确认</string>
+    <string name="permission_dialog_cancel">取消</string>
+    <string name="permission_dialog_setting">设置</string>
+    <string name="permission_always_failed">请在设置中同意以下权限:&#160;%1$s</string>
+    <string name="permission_failed">您未授予下列权限,部分功能将受限:&#160;%1$s</string>
+    <string name="permission_install_failed">您未授予安装应用程序权限,无法更新。</string>
+
 </resources>
