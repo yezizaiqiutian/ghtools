@@ -12,6 +12,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.gh.commonlib.permissions.PermissionUtils;
 import com.gh.ghtools.R;
 import com.gh.ghtools.base.BaseActivity;
+import com.gh.ghtools.ui.loading.LoadingActivity;
 import com.gh.ghtools.ui.net.NetTestActivity;
 import com.gh.ghtools.ui.rotate.RotateActivity;
 import com.gh.ghtools.ui.rxjava.RxJavaActivity;
@@ -31,7 +32,7 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.srl_refresh)
     SmartRefreshLayout srl_refresh;
     private BaseQuickAdapter<String, BaseViewHolder> adapter;
-    private String[] listData = {"网络加载","吸附效果","rxjava","转盘","权限申请"};
+    private String[] listData = {"网络加载","吸附效果","rxjava","转盘","权限申请","错误页面"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +96,9 @@ public class MainActivity extends BaseActivity {
                             Toast.makeText(context, "请求权限:"+isSuccess, Toast.LENGTH_SHORT).show();
                         }
                     }, PermissionUtils.PERMISSION_SD);
+                    break;
+                case 5:
+                    LoadingActivity.Companion.access(context, 0, "");
                     break;
             }
         });
