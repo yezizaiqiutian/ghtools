@@ -28,8 +28,8 @@
         <item name="llEmptyImage">@mipmap/ic_launcher</item>
         <item name="llEmptyText">暂无信息</item>
         <item name="llErrorImage">@mipmap/ic_launcher</item>
-        <item name="llErrorText">暂无信息</item>
-        <item name="llRetryText">暂无信息</item>
+        <item name="llErrorText">页面加载失败</item>
+        <item name="llRetryText">点击重新加载</item>
     </style>
 
 

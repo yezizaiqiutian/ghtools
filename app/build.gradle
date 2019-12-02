@@ -64,14 +64,17 @@ android {
     }
 
     applicationVariants.all { variant ->
-        variant.outputs.all { output ->
-            def outputFile = variant.getPackageApplicationProvider().get().outputDirectory
-            def fileName
-            if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                fileName = "FBSFinance_${productFlavors[0].name}_${variant.buildType.name}_v${defaultConfig.versionName}_${releaseTime()}.apk"
-                outputFileName = fileName
-            }
+        variant.outputs.all {
+            outputFileName = "APP_${variant.versionCode}-${variant.versionName}-${releaseTime()}.apk"
         }
+//        variant.outputs.all { output ->
+//            def outputFile = variant.getPackageApplicationProvider().get().outputDirectory
+//            def fileName
+//            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+//                fileName = "FBSFinance_${productFlavors[0].name}_${variant.buildType.name}_v${defaultConfig.versionName}_${releaseTime()}.apk"
+//                outputFileName = fileName
+//            }
+//        }
     }
 
     flavorDimensions rootProject.ext.flavors["dimension"]
@@ -105,7 +108,7 @@ dependencies {
 
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation rootProject.ext.dependencies["appcompat-v7"]
+    implementation rootProject.ext.dependencies["appcompat-x"]
     implementation rootProject.ext.dependencies["constraint"]
 
     //工具库
